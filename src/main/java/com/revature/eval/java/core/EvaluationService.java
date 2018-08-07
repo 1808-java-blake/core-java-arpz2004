@@ -634,8 +634,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean pangram = true;
+		string = string.toLowerCase();
+		String alphabet = "abcdefghijklmnopqrstuvwxyz";
+		for(int i = 0; i < alphabet.length(); i++) {
+			char letter = alphabet.charAt(i);
+			if(string.indexOf(letter) < 0) {
+				pangram = false;
+				break;
+			}
+		}
+		return pangram;
 	}
 
 	/**
