@@ -379,11 +379,11 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		List<Long> listOfPrimeFactors = new ArrayList<Long>();
-		for(long i = 2; i <= l; i++) {
-			if(l % i == 0) {
+		for (long i = 2; i <= l; i++) {
+			if (l % i == 0) {
 				listOfPrimeFactors.add(i);
-				if(l != i) {
-					listOfPrimeFactors.addAll(calculatePrimeFactorsOf(l/i));
+				if (l != i) {
+					listOfPrimeFactors.addAll(calculatePrimeFactorsOf(l / i));
 				}
 				break;
 			}
@@ -426,8 +426,26 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String result = "";
+			for (int i = 0; i < string.length(); i++) {
+				char c = string.charAt(i);
+				if (Character.isLetter(c)) {
+					int charValue = c + key;
+					if (c >= 'a' && c <= 'z') {
+						if (charValue > 'z') {
+							charValue = charValue - 'z' + 'a' - 1;
+						}
+					} else if (c >= 'A' && c <= 'Z') {
+						if (charValue > 'Z') {
+							charValue = charValue - 'Z' + 'A' - 1;
+						}
+					}
+					result += (char) (charValue);
+				} else {
+					result += c;
+				}
+			}
+			return result;
 		}
 
 	}
