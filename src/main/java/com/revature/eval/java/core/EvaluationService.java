@@ -527,8 +527,21 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String cipherString = "";
+			string = string.toLowerCase();
+			for (int i = 0; i < string.length(); i++) {
+				char c = string.charAt(i);
+				if (Character.isLetter(c)) {
+					int charDiff = 'z' - c;
+					cipherString += (char) ('a' + charDiff);
+				} else if (Character.isDigit(c)) {
+					cipherString += c;
+				}
+				if (Character.isLetterOrDigit(c) && (cipherString.length() + 1) % 6 == 0) {
+					cipherString += ' ';
+				}
+			}
+			return cipherString.trim();
 		}
 
 		/**
