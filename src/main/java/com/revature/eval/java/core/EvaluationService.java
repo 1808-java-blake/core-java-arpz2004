@@ -101,31 +101,33 @@ public class EvaluationService {
 		}
 
 	}
-	
-	//Static map of scrabble letter values (for #4)
-	private static final HashMap<Character, Integer> LETTER_VALUES = new HashMap<Character, Integer>() {{
-	    char[] valueOne = {'a', 'e', 'i', 'o', 'u', 'l', 'n', 'r', 's', 't'};
-	    char[] valueThree = {'b', 'c', 'm', 'p'};
-	    char[] valueFour = {'f', 'h', 'v', 'w', 'y'};
-	    for(char letter : valueOne) {
-	    	put(letter, 1);
-	    }
-	    put('d', 2);
-	    put('g', 2);
-	    for(char letter : valueThree) {
-	    	put(letter, 3);
-	    }
-	    
-	    for(char letter : valueFour) {
-	    	put(letter, 4);
-	    }
-	    put('k', 5);
-	    put('j', 8);
-	    put('x', 8);
-	    put('q', 10);
-	    put('z', 10);
-	}};
-	
+
+	// Static map of scrabble letter values (for #4)
+	private static final HashMap<Character, Integer> LETTER_VALUES = new HashMap<Character, Integer>() {
+		{
+			char[] valueOne = { 'a', 'e', 'i', 'o', 'u', 'l', 'n', 'r', 's', 't' };
+			char[] valueThree = { 'b', 'c', 'm', 'p' };
+			char[] valueFour = { 'f', 'h', 'v', 'w', 'y' };
+			for (char letter : valueOne) {
+				put(letter, 1);
+			}
+			put('d', 2);
+			put('g', 2);
+			for (char letter : valueThree) {
+				put(letter, 3);
+			}
+
+			for (char letter : valueFour) {
+				put(letter, 4);
+			}
+			put('k', 5);
+			put('j', 8);
+			put('x', 8);
+			put('q', 10);
+			put('z', 10);
+		}
+	};
+
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
 	 * 
@@ -144,9 +146,9 @@ public class EvaluationService {
 	public int getScrabbleScore(String string) {
 		String lowerCaseString = string.toLowerCase();
 		int score = 0;
-		for (int i = 0; i < lowerCaseString.length(); i++){
-		    char c = lowerCaseString.charAt(i);        
-		    score += LETTER_VALUES.get(c);
+		for (int i = 0; i < lowerCaseString.length(); i++) {
+			char c = lowerCaseString.charAt(i);
+			score += LETTER_VALUES.get(c);
 		}
 		return score;
 	}
@@ -183,8 +185,20 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String onlyDigits = "";
+		for (int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
+			if (Character.isDigit(c)) {
+				onlyDigits += c;
+			}
+		}
+		String result;
+		if (onlyDigits.length() == 10 || (onlyDigits.length() == 11 && onlyDigits.charAt(0) == '1')) {
+			result = onlyDigits;
+		} else {
+			throw new IllegalArgumentException();
+		}
+		return result;
 	}
 
 	/**
