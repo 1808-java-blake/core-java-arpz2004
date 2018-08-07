@@ -1,6 +1,8 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,8 +214,8 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		Map<String, Integer> wordCount = new HashMap<String, Integer>();
-		String[] arrayOfWords = string.split("[\\s,]+");
-		for(String word : arrayOfWords) {
+		String[] words = string.split("[\\s,]+");
+		for(String word : words) {
 			Integer count = wordCount.get(word);
 			if(count == null) {
 				count = 1;
@@ -314,8 +316,29 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String[] consonantClusters = new String[]{"sch", "scr", "shr", "sph", "spl", "spr", "squ", 
+				"str", "thr", "bl", "br", "ch", "cl", "cr", "dr", "fl", "fr", "gl", "gn", "gr", "kn", "pl", "pr", 
+				"qu", "sc", "sh", "sk", "sl", "sm", "sn", "sp", "st", "sw", "th", "tr", "tw", "wh", "wr"};
+		String[] words = string.split(" ");
+		for(int i = 0; i < words.length; i++) {
+			String word = words[i];
+			char firstLetter = word.charAt(0);
+			if("aeiou".indexOf(firstLetter) < 0) {
+				boolean startsWithCluster = false;
+				for(String cluster : consonantClusters) {
+					if(word.startsWith(cluster)) {
+						word = word.substring(cluster.length(), word.length()) + cluster;
+						startsWithCluster = true;
+						break;
+					}
+				}
+				if (!startsWithCluster) {
+					word = word.substring(1, word.length()) + firstLetter;
+				}
+			}
+			words[i] = word + "ay";
+		}
+		return Arrays.toString(words).replaceAll("[\\[\\],]", "");
 	}
 
 	/**
