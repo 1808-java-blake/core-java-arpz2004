@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class EvaluationService {
 	 */
 	public String reverse(String string) {
 		char[] reversed = new char[string.length()];
-		for (int i = reversed.length - 1, j=0; i >= 0; i--, j++) {
+		for (int i = reversed.length - 1, j = 0; i >= 0; i--, j++) {
 			reversed[j] = string.charAt(i);
 		}
 		return new String(reversed);
@@ -30,8 +31,12 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String[] words = phrase.split(" ");
+		String acronym = "";
+		for (int i = 0; i < words.length; i++) {
+			acronym += words[i].charAt(0);
+		}
+		return acronym;
 	}
 
 	/**
@@ -84,22 +89,43 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			return sideOne == sideTwo && sideOne == sideThree;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			return sideOne == sideTwo || sideOne == sideThree || sideTwo == sideThree;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			return !isIsosceles();
 		}
 
 	}
-
+	
+	//Static map of scrabble letter values (for #4)
+	private static final HashMap<Character, Integer> LETTER_VALUES = new HashMap<Character, Integer>() {{
+	    char[] valueOne = {'a', 'e', 'i', 'o', 'u', 'l', 'n', 'r', 's', 't'};
+	    char[] valueThree = {'b', 'c', 'm', 'p'};
+	    char[] valueFour = {'f', 'h', 'v', 'w', 'y'};
+	    for(char letter : valueOne) {
+	    	put(letter, 1);
+	    }
+	    put('d', 2);
+	    put('g', 2);
+	    for(char letter : valueThree) {
+	    	put(letter, 3);
+	    }
+	    
+	    for(char letter : valueFour) {
+	    	put(letter, 4);
+	    }
+	    put('k', 5);
+	    put('j', 8);
+	    put('x', 8);
+	    put('q', 10);
+	    put('z', 10);
+	}};
+	
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
 	 * 
@@ -116,8 +142,13 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		String lowerCaseString = string.toLowerCase();
+		int score = 0;
+		for (int i = 0; i < lowerCaseString.length(); i++){
+		    char c = lowerCaseString.charAt(i);        
+		    score += LETTER_VALUES.get(c);
+		}
+		return score;
 	}
 
 	/**
