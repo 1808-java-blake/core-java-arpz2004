@@ -378,8 +378,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		List<Long> listOfPrimeFactors = new ArrayList<Long>();
+		for(long i = 2; i <= l; i++) {
+			if(l % i == 0) {
+				listOfPrimeFactors.add(i);
+				if(l != i) {
+					listOfPrimeFactors.addAll(calculatePrimeFactorsOf(l/i));
+				}
+				break;
+			}
+		}
+		return listOfPrimeFactors;
 	}
 
 	/**
