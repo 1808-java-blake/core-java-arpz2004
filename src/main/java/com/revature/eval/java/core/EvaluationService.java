@@ -551,8 +551,18 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String decodedString = "";
+			string = string.replace(" ", "");
+			for (int i = 0; i < string.length(); i++) {
+				char c = string.charAt(i);
+				if (Character.isLetter(c)) {
+					int charDiff = 'z' - c;
+					decodedString += (char) ('a' + charDiff);
+				} else if (Character.isDigit(c)) {
+					decodedString += c;
+				}
+			}
+			return decodedString;
 		}
 	}
 
