@@ -215,11 +215,11 @@ public class EvaluationService {
 	public Map<String, Integer> wordCount(String string) {
 		Map<String, Integer> wordCount = new HashMap<String, Integer>();
 		String[] words = string.split("[\\s,]+");
-		for(String word : words) {
+		for (String word : words) {
 			Integer count = wordCount.get(word);
-			if(count == null) {
+			if (count == null) {
 				count = 1;
-			}else {
+			} else {
 				count += 1;
 			}
 			wordCount.put(word, count);
@@ -270,13 +270,14 @@ public class EvaluationService {
 			if (!sortedList.isEmpty()) {
 				int middleIndex = sortedList.size() / 2;
 				T element = sortedList.get(middleIndex);
-				if(t.compareTo(element) == 0) {
+				if (t.compareTo(element) == 0) {
 					index = middleIndex;
-				}else if(t.compareTo(element) < 0) {
+				} else if (t.compareTo(element) < 0) {
 					BinarySearch<T> lessThanList = new BinarySearch<T>(sortedList.subList(0, middleIndex));
 					index = lessThanList.indexOf(t);
-				}else if(t.compareTo(element) > 0) {
-					BinarySearch<T> greaterThanList = new BinarySearch<T>(sortedList.subList(middleIndex + 1, sortedList.size()));
+				} else if (t.compareTo(element) > 0) {
+					BinarySearch<T> greaterThanList = new BinarySearch<T>(
+							sortedList.subList(middleIndex + 1, sortedList.size()));
 					index = greaterThanList.indexOf(t) + middleIndex + 1;
 				}
 			}
@@ -316,17 +317,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		String[] consonantClusters = new String[]{"sch", "scr", "shr", "sph", "spl", "spr", "squ", 
-				"str", "thr", "bl", "br", "ch", "cl", "cr", "dr", "fl", "fr", "gl", "gn", "gr", "kn", "pl", "pr", 
-				"qu", "sc", "sh", "sk", "sl", "sm", "sn", "sp", "st", "sw", "th", "tr", "tw", "wh", "wr"};
+		String[] consonantClusters = new String[] { "sch", "scr", "shr", "sph", "spl", "spr", "squ", "str", "thr", "bl",
+				"br", "ch", "cl", "cr", "dr", "fl", "fr", "gl", "gn", "gr", "kn", "pl", "pr", "qu", "sc", "sh", "sk",
+				"sl", "sm", "sn", "sp", "st", "sw", "th", "tr", "tw", "wh", "wr" };
 		String[] words = string.split(" ");
-		for(int i = 0; i < words.length; i++) {
+		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 			char firstLetter = word.charAt(0);
-			if("aeiou".indexOf(firstLetter) < 0) {
+			if ("aeiou".indexOf(firstLetter) < 0) {
 				boolean startsWithCluster = false;
-				for(String cluster : consonantClusters) {
-					if(word.startsWith(cluster)) {
+				for (String cluster : consonantClusters) {
+					if (word.startsWith(cluster)) {
 						word = word.substring(cluster.length(), word.length()) + cluster;
 						startsWithCluster = true;
 						break;
@@ -357,8 +358,13 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		int length = (int) (Math.log10(input) + 1);
+		int result = 0;
+		for (int i = 0; i < length; i++) {
+			int digit = (input % (int) Math.pow(10, i + 1) / (int) Math.pow(10, i));
+			result += Math.pow(digit, length);
+		}
+		return result == input;
 	}
 
 	/**
