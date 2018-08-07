@@ -104,6 +104,31 @@ public class EvaluationService {
 
 	}
 
+	/**
+	 * 4. Given a word, compute the scrabble score for that word.
+	 * 
+	 * --Letter Values-- Letter Value A, E, I, O, U, L, N, R, S, T = 1; D, G = 2; B,
+	 * C, M, P = 3; F, H, V, W, Y = 4; K = 5; J, X = 8; Q, Z = 10; Examples
+	 * "cabbage" should be scored as worth 14 points:
+	 * 
+	 * 3 points for C, 1 point for A, twice 3 points for B, twice 2 points for G, 1
+	 * point for E And to total:
+	 * 
+	 * 3 + 2*1 + 2*3 + 2 + 1 = 3 + 2 + 6 + 3 = 5 + 9 = 14
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public int getScrabbleScore(String string) {
+		String lowerCaseString = string.toLowerCase();
+		int score = 0;
+		for (int i = 0; i < lowerCaseString.length(); i++) {
+			char c = lowerCaseString.charAt(i);
+			score += LETTER_VALUES.get(c);
+		}
+		return score;
+	}
+
 	// Static map of scrabble letter values (for #4)
 	private static final HashMap<Character, Integer> LETTER_VALUES = new HashMap<Character, Integer>() {
 		{
@@ -129,31 +154,6 @@ public class EvaluationService {
 			put('z', 10);
 		}
 	};
-
-	/**
-	 * 4. Given a word, compute the scrabble score for that word.
-	 * 
-	 * --Letter Values-- Letter Value A, E, I, O, U, L, N, R, S, T = 1; D, G = 2; B,
-	 * C, M, P = 3; F, H, V, W, Y = 4; K = 5; J, X = 8; Q, Z = 10; Examples
-	 * "cabbage" should be scored as worth 14 points:
-	 * 
-	 * 3 points for C, 1 point for A, twice 3 points for B, twice 2 points for G, 1
-	 * point for E And to total:
-	 * 
-	 * 3 + 2*1 + 2*3 + 2 + 1 = 3 + 2 + 6 + 3 = 5 + 9 = 14
-	 * 
-	 * @param string
-	 * @return
-	 */
-	public int getScrabbleScore(String string) {
-		String lowerCaseString = string.toLowerCase();
-		int score = 0;
-		for (int i = 0; i < lowerCaseString.length(); i++) {
-			char c = lowerCaseString.charAt(i);
-			score += LETTER_VALUES.get(c);
-		}
-		return score;
-	}
 
 	/**
 	 * 5. Clean up user-entered phone numbers so that they can be sent SMS messages.
@@ -463,8 +463,35 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		if (i < 1) {
+			throw new IllegalArgumentException();
+		}
+		int numberOfPrimes = 1;
+		int number = 2;
+		while (numberOfPrimes < i) {
+			number++;
+			if (isPrime(number)) {
+				numberOfPrimes++;
+			}
+		}
+		return number;
+	}
+
+	// Returns true if an integer is a prime number, false otherwise
+	public boolean isPrime(int i) {
+		if (i < 1) {
+			throw new IllegalArgumentException();
+		}
+		boolean prime = false;
+		for (int k = 2; k <= i; k++) {
+			if (i % k == 0) {
+				if (i == k) {
+					prime = true;
+				}
+				break;
+			}
+		}
+		return prime;
 	}
 
 	/**
