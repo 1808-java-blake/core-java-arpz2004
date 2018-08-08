@@ -1,14 +1,8 @@
 package com.revature.eval.java.core;
 
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -138,6 +132,7 @@ public class EvaluationService {
 	}
 
 	// Static map of scrabble letter values (for #4)
+	@SuppressWarnings("serial")
 	private static final HashMap<Character, Integer> LETTER_VALUES = new HashMap<Character, Integer>() {
 		{
 			char[] valueOne = { 'a', 'e', 'i', 'o', 'u', 'l', 'n', 'r', 's', 't' };
