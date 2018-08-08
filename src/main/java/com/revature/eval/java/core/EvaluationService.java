@@ -1,6 +1,14 @@
 package com.revature.eval.java.core;
 
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -596,25 +604,25 @@ public class EvaluationService {
 			int checksum = 0;
 			for (int i = 0; i <= 8; i++) {
 				char c = string.charAt(i);
-				if(Character.isDigit(c)) {
+				if (Character.isDigit(c)) {
 					checksum += (10 - i) * Character.getNumericValue(c);
-				}else {
+				} else {
 					valid = false;
 					break;
 				}
 			}
 			char c = string.charAt(9);
-			if(Character.isDigit(c)) {
+			if (Character.isDigit(c)) {
 				checksum += Character.getNumericValue(c);
-			}else if(c == 'X') {
+			} else if (c == 'X') {
 				checksum += 10;
-			}else {
+			} else {
 				valid = false;
 			}
-			if(checksum % 11 != 0) {
+			if (checksum % 11 != 0) {
 				valid = false;
 			}
-		}else {
+		} else {
 			valid = false;
 		}
 		return valid;
@@ -637,9 +645,9 @@ public class EvaluationService {
 		boolean pangram = true;
 		string = string.toLowerCase();
 		String alphabet = "abcdefghijklmnopqrstuvwxyz";
-		for(int i = 0; i < alphabet.length(); i++) {
+		for (int i = 0; i < alphabet.length(); i++) {
 			char letter = alphabet.charAt(i);
-			if(string.indexOf(letter) < 0) {
+			if (string.indexOf(letter) < 0) {
 				pangram = false;
 				break;
 			}
@@ -656,8 +664,10 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		if (given instanceof LocalDate) {
+			given = ((LocalDate) given).atTime(0, 0);
+		}
+		return given.plus(1000000000, ChronoUnit.SECONDS);
 	}
 
 	/**
