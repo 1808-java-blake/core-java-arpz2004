@@ -41,10 +41,10 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		String[] words = phrase.split(" ");
+		String[] words = phrase.split("[ -]");
 		String acronym = "";
 		for (int i = 0; i < words.length; i++) {
-			acronym += words[i].charAt(0);
+			acronym += Character.toUpperCase(words[i].charAt(0));
 		}
 		return acronym;
 	}
@@ -741,9 +741,9 @@ public class EvaluationService {
 			char c = string.charAt(i);
 			if (Character.isDigit(c)) {
 				int value = Character.getNumericValue(c);
-				if((stringLength - i) % 2 == 0) {
+				if ((stringLength - i) % 2 == 0) {
 					value *= 2;
-					if(value > 9) {
+					if (value > 9) {
 						value -= 9;
 					}
 				}
@@ -784,8 +784,47 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		int result = 0;
+		if (string.length() < 9 || !string.substring(0, 8).equals("What is ")
+				|| string.charAt(string.length() - 1) != '?') {
+			throw new IllegalArgumentException();
+		} else {
+			string = string.substring(8);
+			string = string.substring(0, string.length() - 1);
+			String[] arrayOfStrings = string.split(" ");
+			if (arrayOfStrings.length == 3) {
+				if (!(arrayOfStrings[0].matches("-?\\d+") && arrayOfStrings[2].matches("-?\\d+"))){
+					throw new IllegalArgumentException();
+				}
+				int operand1 = Integer.parseInt(arrayOfStrings[0]);
+				int operand2 = Integer.parseInt(arrayOfStrings[2]);
+				String operation = arrayOfStrings[1];
+				if (operation.equals("plus")) {
+					result = operand1 + operand2;
+				} else if (operation.equals("minus")) {
+					result = operand1 - operand2;
+				} else {
+					throw new IllegalArgumentException();
+				}
+			} else if (arrayOfStrings.length == 4 && arrayOfStrings[2].equals("by")) {
+				if (!(arrayOfStrings[0].matches("-?\\d+") && arrayOfStrings[3].matches("-?\\d+"))){
+					throw new IllegalArgumentException();
+				}
+				int operand1 = Integer.parseInt(arrayOfStrings[0]);
+				int operand2 = Integer.parseInt(arrayOfStrings[3]);
+				String operation = arrayOfStrings[1];
+				if (operation.equals("multiplied")) {
+					result = operand1 * operand2;
+				} else if (operation.equals("divided")) {
+					result = operand1 / operand2;
+				} else {
+					throw new IllegalArgumentException();
+				}
+			} else {
+				throw new IllegalArgumentException();
+			}
+		}
+		return result;
 	}
 
 }
