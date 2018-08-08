@@ -36,11 +36,11 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		String[] words = phrase.split("[ -]");
-		String acronym = "";
+		StringBuilder acronym = new StringBuilder();
 		for (int i = 0; i < words.length; i++) {
-			acronym += Character.toUpperCase(words[i].charAt(0));
+			acronym.append(Character.toUpperCase(words[i].charAt(0)));
 		}
-		return acronym;
+		return acronym.toString();
 	}
 
 	/**
@@ -190,16 +190,16 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		String onlyDigits = "";
+		StringBuilder onlyDigits = new StringBuilder();
 		for (int i = 0; i < string.length(); i++) {
 			char c = string.charAt(i);
 			if (Character.isDigit(c)) {
-				onlyDigits += c;
+				onlyDigits.append(c);
 			}
 		}
 		String result;
 		if (onlyDigits.length() == 10 || (onlyDigits.length() == 11 && onlyDigits.charAt(0) == '1')) {
-			result = onlyDigits;
+			result = onlyDigits.toString();
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -429,7 +429,7 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			String result = "";
+			StringBuilder result = new StringBuilder();
 			for (int i = 0; i < string.length(); i++) {
 				char c = string.charAt(i);
 				if (Character.isLetter(c)) {
@@ -443,12 +443,12 @@ public class EvaluationService {
 							charValue = charValue - 'Z' + 'A' - 1;
 						}
 					}
-					result += (char) (charValue);
+					result.append((char) (charValue));
 				} else {
-					result += c;
+					result.append(c);
 				}
 			}
-			return result;
+			return result.toString();
 		}
 
 	}
@@ -530,21 +530,21 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			String cipherString = "";
+			StringBuilder cipherString = new StringBuilder();
 			string = string.toLowerCase();
 			for (int i = 0; i < string.length(); i++) {
 				char c = string.charAt(i);
 				if (Character.isLetter(c)) {
 					int charDiff = 'z' - c;
-					cipherString += (char) ('a' + charDiff);
+					cipherString.append((char) ('a' + charDiff));
 				} else if (Character.isDigit(c)) {
-					cipherString += c;
+					cipherString.append(c);
 				}
 				if (Character.isLetterOrDigit(c) && (cipherString.length() + 1) % 6 == 0) {
-					cipherString += ' ';
+					cipherString.append(' ');
 				}
 			}
-			return cipherString.trim();
+			return cipherString.toString().trim();
 		}
 
 		/**
@@ -554,18 +554,18 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			String decodedString = "";
+			StringBuilder decodedString = new StringBuilder();
 			string = string.replace(" ", "");
 			for (int i = 0; i < string.length(); i++) {
 				char c = string.charAt(i);
 				if (Character.isLetter(c)) {
 					int charDiff = 'z' - c;
-					decodedString += (char) ('a' + charDiff);
+					decodedString.append((char) ('a' + charDiff));
 				} else if (Character.isDigit(c)) {
-					decodedString += c;
+					decodedString.append(c);
 				}
 			}
-			return decodedString;
+			return decodedString.toString();
 		}
 	}
 
