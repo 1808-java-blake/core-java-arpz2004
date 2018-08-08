@@ -686,7 +686,7 @@ public class EvaluationService {
 	public int getSumOfMultiples(int i, int[] set) {
 		int sum = 0;
 		for (int j = 1; j < i; j++) {
-			for(int num : set) {
+			for (int num : set) {
 				if (j % num == 0) {
 					sum += j;
 					break;
@@ -733,8 +733,27 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean valid = true;
+		string = string.replace(" ", "");
+		int sum = 0;
+		int stringLength = string.length();
+		for (int i = 0; i < stringLength; i++) {
+			char c = string.charAt(i);
+			if (Character.isDigit(c)) {
+				int value = Character.getNumericValue(c);
+				if((stringLength - i) % 2 == 0) {
+					value *= 2;
+					if(value > 9) {
+						value -= 9;
+					}
+				}
+				sum += value;
+			} else {
+				valid = false;
+				break;
+			}
+		}
+		return valid && sum % 10 == 0;
 	}
 
 	/**
