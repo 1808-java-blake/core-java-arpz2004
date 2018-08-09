@@ -512,7 +512,7 @@ public class EvaluationService {
 		if (!prime) {
 			for (int k = lastPreviousPrime; k <= number; k++) {
 				if (number % k == 0) {
-					if (number == k) {
+					if (number <= k) {
 						prime = true;
 					}
 					break;
