@@ -469,37 +469,50 @@ public class EvaluationService {
 		if (i < 1) {
 			throw new IllegalArgumentException();
 		}
-		List<Integer> previousPrimes = new ArrayList<>();
-		int numberOfPrimes = 1;
-		int number = 2;
-		previousPrimes.add(number);
-		while (numberOfPrimes < i) {
-			number++;
-			if (isPrime(number, previousPrimes)) {
-				previousPrimes.add(number);
-				numberOfPrimes++;
+		// Special case for 2 because it is the only even prime, can increase number by
+		// 2 at a time if starting from 3
+		int number = 3;
+		if (i == 1) {
+			number = 2;
+		} else if (i > 2) {
+			List<Integer> previousPrimes = new ArrayList<>();
+			int numberOfPrimes = 2;
+			previousPrimes.add(2);
+			previousPrimes.add(3);
+			while (numberOfPrimes < i) {
+				number += 2;
+				if (isPrime(number, previousPrimes)) {
+					previousPrimes.add(number);
+					numberOfPrimes++;
+				}
 			}
 		}
 		return number;
 	}
 
-	// Returns true if an integer is a prime number, false otherwise
-	public boolean isPrime(int i, List<Integer> previousPrimes) {
-		if (i < 1) {
+	/**
+	 * Returns true if an integer is a prime number, false otherwise. Only checks if
+	 * number is divisible by any of the previous primes up to the last previous
+	 * prime, then checks for all numbers after that up to one under the number.
+	 * This is because if it is divisible by any composite number up to the last
+	 * previous prime, it must also be divisible by one of the previous primes
+	 */
+	public boolean isPrime(int number, List<Integer> previousPrimes) {
+		if (number < 1) {
 			throw new IllegalArgumentException();
 		}
 		boolean prime = false;
 		int lastPreviousPrime = 2;
 		for (Integer primeNumber : previousPrimes) {
-			if (i % primeNumber == 0) {
+			if (number % primeNumber == 0) {
 				break;
 			}
 			lastPreviousPrime = primeNumber + 1;
 		}
 		if (!prime) {
-			for (int k = lastPreviousPrime; k <= i; k++) {
-				if (i % k == 0) {
-					if (i == k) {
+			for (int k = lastPreviousPrime; k <= number; k++) {
+				if (number % k == 0) {
+					if (number == k) {
 						prime = true;
 					}
 					break;
