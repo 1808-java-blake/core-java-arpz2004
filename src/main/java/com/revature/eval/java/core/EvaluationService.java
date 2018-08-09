@@ -469,11 +469,14 @@ public class EvaluationService {
 		if (i < 1) {
 			throw new IllegalArgumentException();
 		}
+		List<Integer> previousPrimes = new ArrayList<>();
 		int numberOfPrimes = 1;
 		int number = 2;
+		previousPrimes.add(number);
 		while (numberOfPrimes < i) {
 			number++;
-			if (isPrime(number)) {
+			if (isPrime(number, previousPrimes)) {
+				previousPrimes.add(number);
 				numberOfPrimes++;
 			}
 		}
@@ -481,17 +484,26 @@ public class EvaluationService {
 	}
 
 	// Returns true if an integer is a prime number, false otherwise
-	public boolean isPrime(int i) {
+	public boolean isPrime(int i, List<Integer> previousPrimes) {
 		if (i < 1) {
 			throw new IllegalArgumentException();
 		}
 		boolean prime = false;
-		for (int k = 2; k <= i; k++) {
-			if (i % k == 0) {
-				if (i == k) {
-					prime = true;
-				}
+		int lastPreviousPrime = 2;
+		for (Integer primeNumber : previousPrimes) {
+			if (i % primeNumber == 0) {
 				break;
+			}
+			lastPreviousPrime = primeNumber + 1;
+		}
+		if (!prime) {
+			for (int k = lastPreviousPrime; k <= i; k++) {
+				if (i % k == 0) {
+					if (i == k) {
+						prime = true;
+					}
+					break;
+				}
 			}
 		}
 		return prime;
@@ -788,7 +800,7 @@ public class EvaluationService {
 			string = string.substring(0, string.length() - 1);
 			String[] arrayOfStrings = string.split(" ");
 			if (arrayOfStrings.length == 3) {
-				if (!(arrayOfStrings[0].matches("-?\\d+") && arrayOfStrings[2].matches("-?\\d+"))){
+				if (!(arrayOfStrings[0].matches("-?\\d+") && arrayOfStrings[2].matches("-?\\d+"))) {
 					throw new IllegalArgumentException();
 				}
 				int operand1 = Integer.parseInt(arrayOfStrings[0]);
@@ -802,7 +814,7 @@ public class EvaluationService {
 					throw new IllegalArgumentException();
 				}
 			} else if (arrayOfStrings.length == 4 && arrayOfStrings[2].equals("by")) {
-				if (!(arrayOfStrings[0].matches("-?\\d+") && arrayOfStrings[3].matches("-?\\d+"))){
+				if (!(arrayOfStrings[0].matches("-?\\d+") && arrayOfStrings[3].matches("-?\\d+"))) {
 					throw new IllegalArgumentException();
 				}
 				int operand1 = Integer.parseInt(arrayOfStrings[0]);
