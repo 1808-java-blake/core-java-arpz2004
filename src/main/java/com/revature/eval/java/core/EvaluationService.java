@@ -132,8 +132,12 @@ public class EvaluationService {
 	}
 
 	// Static map of scrabble letter values (for #4)
-	@SuppressWarnings("serial")
 	private static final HashMap<Character, Integer> LETTER_VALUES = new HashMap<Character, Integer>() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6005578834680010761L;
+
 		{
 			char[] valueOne = { 'a', 'e', 'i', 'o', 'u', 'l', 'n', 'r', 's', 't' };
 			char[] valueThree = { 'b', 'c', 'm', 'p' };
